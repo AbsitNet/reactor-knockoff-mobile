@@ -1,0 +1,12 @@
+{
+	"name": "Reactor Knockoff",
+	"short_name": "Reactor",
+	"start_url": "./index.html",
+	"scope": "./",
+	"display": "standalone",
+	"background_color": "#000204",
+	"theme_color": "#30424b",
+	"icons": [
+		{ "src": "img/preview.png", "sizes": "300x300", "type": "image/png" }
+	]
+}

@@ -16,6 +16,14 @@
 	<link rel="stylesheet" href="css/app.css">
 	<link rel="stylesheet" href="css/app.perf.css">
 	<link rel="stylesheet" href="css/cms.css">
+	<link rel="stylesheet" href="css/app.mobile.css">
+	<meta name="theme-color" content="#30424b">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<link rel="manifest" href="manifest.json">
+	<link rel="icon" href="img/preview.png">
+	<link rel="apple-touch-icon" href="img/preview.png">
 </head>
 <body>
 	<div id="wrapper">
@@ -78,6 +86,43 @@
 				<!-- -- Parts -- -->
 				<section id="parts_section" class="panel">
 					<h2 class="heading">Parts</h2>
+
+					<!-- Touch controls (shown on touch screens only), they emulate the mouse/keyboard controls -->
+					<div id="touch_toolbar">
+						<div class="touch_group">
+							<button id="touch_mode_place" class="touch_mode active" data-mode="place" title="Tap/drag on the reactor to place the selected part">Build</button>
+							<button id="touch_mode_sell" class="touch_mode" data-mode="sell" title="Tap/drag on the reactor to sell parts (same as right click)">Sell</button>
+							<button id="touch_mode_pan" class="touch_mode" data-mode="pan" title="Scroll the reactor; a tap still builds">Scroll</button>
+						</div>
+						<div class="touch_group">
+							<select id="touch_pattern" title="Placement pattern (same as the Shift/Ctrl/Alt hotkeys)">
+								<option value="single">1 tile</option>
+								<option value="same">All same</option>
+								<option value="row">Row (same)</option>
+								<option value="row_all">Row (all)</option>
+								<option value="col">Column (same)</option>
+								<option value="col_all">Column (all)</option>
+								<option value="checker">Checkered</option>
+							</select>
+							<select id="touch_step" title="Row/column spacing (same as holding number keys 2-9)">
+								<option value="1">Step 1</option>
+								<option value="2">Step 2</option>
+								<option value="3">Step 3</option>
+								<option value="4">Step 4</option>
+								<option value="5">Step 5</option>
+								<option value="6">Step 6</option>
+								<option value="7">Step 7</option>
+								<option value="8">Step 8</option>
+								<option value="9">Step 9</option>
+							</select>
+						</div>
+						<div class="touch_group">
+							<button id="touch_zoom_out" title="Zoom out reactor">&minus;</button>
+							<button id="touch_zoom_fit" title="Fit reactor to screen">Fit</button>
+							<button id="touch_zoom_in" title="Zoom in reactor">+</button>
+							<button id="touch_parts_toggle" title="Show/hide parts">Parts &#9662;</button>
+						</div>
+					</div>
 
 					<div id="all_parts">
 						<!-- nav id="parts_nav">
@@ -172,9 +217,14 @@
 							</p>
 						</div>
 						<div id="tooltip_text" class="subpanel">
+							<button id="tooltip_close" title="Close">&times;</button>
 							<div id="tooltip_info">
 								<h2 class="headline" id="tooltip_name" title="Name"></h2>
 								<p id="tooltip_description" title="Description" class="explanitory"></p>
+							</div>
+							<div id="tooltip_buy">
+								<button id="tooltip_buy_one">Buy</button>
+								<button id="tooltip_buy_max">Buy max</button>
 							</div>
 						</div>
 					</section>
@@ -460,5 +510,6 @@
 	<script src="js/app.save.js"></script>
 	<script src="js/app.hotkeys.js"></script>
 	<script src="js/app.js"></script>
+	<script src="js/app.mobile.js"></script>
 </body>
 </html>

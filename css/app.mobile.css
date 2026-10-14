@@ -1,0 +1,494 @@
+/* //////////////////////////
+ // Touch screens & small screens
+ //
+ // Everything here only applies on touch devices (html.touch_input)
+ // or narrow screens (max-width: 900px) / landscape phones, the desktop layout is unchanged.
+////////////////////////// */
+
+button,
+select {
+	touch-action: manipulation;
+}
+
+/* Touch-only controls are hidden by default */
+#touch_toolbar,
+#tooltip_buy {
+	display: none;
+}
+
+  /* //////////////////////////
+ // Touch toolbar
+////////////////////////// */
+
+.touch_input #touch_toolbar {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 6px;
+	margin: 0 6px 6px 0;
+}
+
+.touch_group {
+	display: flex;
+	gap: 3px;
+	flex-wrap: nowrap;
+}
+
+#touch_toolbar button,
+#touch_toolbar select,
+#tooltip_buy button {
+	font-family: monospace;
+	font-size: 12px;
+	line-height: 1;
+	min-height: 32px;
+	min-width: 32px;
+	padding: 0 .45em;
+	color: #fff;
+	text-shadow: 1px 1px 0 #000;
+	background-color: #76809b;
+	border: 5px solid #76809b;
+	border-image: url("../img/small_button_off.png") 8 8 stretch;
+	border-radius: 0;
+}
+
+#touch_toolbar select {
+	-webkit-appearance: none;
+	appearance: none;
+	padding: 0 .4em;
+	max-width: 8.5em;
+}
+
+#touch_toolbar button.active,
+#touch_toolbar button:active,
+#tooltip_buy button:active {
+	border-image: url("../img/small_button_down.png") 8 8 stretch;
+	background-color: #59c435;
+}
+
+#touch_toolbar #touch_mode_sell.active {
+	background-color: #c44435;
+}
+
+.touch_pattern_active #touch_pattern {
+	background-color: #c49a35;
+}
+
+.no_zoom #touch_zoom_in,
+.no_zoom #touch_zoom_out,
+.no_zoom #touch_zoom_fit {
+	display: none;
+}
+
+/* Parts panel can be collapsed to free up screen space */
+.touch_parts_collapsed #all_parts {
+	display: none;
+}
+
+  /* //////////////////////////
+ // Reactor touch behaviour
+////////////////////////// */
+
+.touch_input #reactor,
+.touch_input #reactor .tile {
+	touch-action: none;
+}
+
+.touch_input.touch_pan #reactor,
+.touch_input.touch_pan #reactor .tile {
+	touch-action: pan-x pan-y;
+}
+
+.touch_input.touch_sell #reactor_wrapper {
+	outline: 2px solid #c44435;
+}
+
+.touch_input #reactor .tile:focus {
+	/* focus highlight sticks around after taps */
+	box-shadow: none;
+	background: transparent;
+}
+
+.touch_input #reactor .tile:focus.part_active,
+.touch_input #reactor .tile.tile_active {
+	box-shadow: 0px 0px 1px 1px #59c435;
+	background: #59c435;
+}
+
+  /* //////////////////////////
+ // Tooltip on touch screens: floating panel, nav stays visible
+////////////////////////// */
+
+/* will-change: transform (app.perf.css) would trap the fixed tooltip inside the nav panel */
+#main.touch #tooltip_nav {
+	will-change: auto;
+}
+
+#main.touch.tooltip_showing #nav {
+	display: flex;
+}
+
+#main.touch #tooltip {
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: calc(var(--dock-height, 0px) + 6px);
+	width: calc(100% - 12px);
+	max-width: 640px;
+	height: auto;
+	max-height: 45vh;
+	overflow: auto;
+	z-index: 40;
+	padding: 4px;
+	background: #485667;
+	border: 10px solid #485667;
+	border-image: url("../img/border_bg.png") 10 10 stretch;
+	box-shadow: 0 0 10px rgba(0, 0, 0, .8);
+}
+
+#main.touch #tooltip_text {
+	position: relative;
+	padding-right: 36px;
+}
+
+#main.touch #tooltip #tooltip_close {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 32px;
+	min-height: 32px;
+	padding: 0;
+	font-size: 20px;
+	border: 6px solid #76809b;
+}
+
+.touch_input.touch_tooltip_upgrade #tooltip_buy {
+	display: flex;
+	gap: 6px;
+	margin: 6px 0 2px;
+}
+
+#main.touch #tooltip_buy button {
+	display: inline-block;
+}
+
+  /* //////////////////////////
+ // Small screens
+////////////////////////// */
+
+@media (max-width: 900px), (pointer: coarse) and (max-height: 500px) {
+	body {
+		display: block;
+		overflow: auto;
+		overflow-x: hidden;
+		height: auto;
+		min-height: 100%;
+	}
+
+	#wrapper {
+		display: block;
+		height: auto;
+	}
+
+	#main {
+		flex-direction: column;
+		margin: 0;
+		padding-bottom: calc(var(--dock-height, 0px) + 4px);
+		width: 100%;
+	}
+
+	#main:before {
+		display: none;
+	}
+
+	/* Flatten the two columns so the panels can be reordered */
+	#secondary,
+	#primary {
+		display: contents;
+		float: none;
+		width: auto !important;
+	}
+
+	#main .panel {
+		margin: 0 0 3px 0 !important;
+		min-width: 0;
+	}
+
+	#stats_section       { order: 1; }
+	#tooltip_nav         { order: 2; }
+	#objectives_section  { order: 3; }
+	#reactor_upgrades    { order: 4; }
+	#parts_section       { order: 5; }
+
+	/* -- Stats: compact, stays on top -- */
+	#main #stats_section {
+		position: -webkit-sticky;
+		position: sticky;
+		top: 0;
+		z-index: 30;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4px 6px;
+		padding: 4px 4px 4px 6px;
+		border-width: 8px;
+	}
+
+	#stats_section #heat,
+	#stats_section #power_section {
+		margin: 0;
+		min-width: 0;
+	}
+
+	#stats_section #currency {
+		grid-column: 1 / span 2;
+	}
+
+	#stats_section .heading {
+		font-size: .75em;
+		margin-bottom: .1em;
+	}
+
+	#power_indicator,
+	#heat_indicator {
+		padding: 3px 0;
+	}
+
+	#currency {
+		padding: 3px 0;
+	}
+
+	#main #currency,
+	#main #power_indicator,
+	#main #heat_text {
+		font-size: 12px;
+	}
+
+	#money_wrapper,
+	#money_per_tick_wrapper,
+	#exotic_particles_wrapper {
+		display: inline;
+	}
+
+	#heat_wrapper,
+	#heat_per_tick_wrapper,
+	#power_text,
+	#power_per_tick_wrapper {
+		white-space: normal;
+	}
+
+	#reduce_heat,
+	#sell {
+		min-height: 34px;
+		font-size: 12px;
+	}
+
+	/* -- Nav -- */
+	#main #tooltip_nav {
+		height: auto;
+		padding: 2px 4px;
+	}
+
+	/* One wrapping row of buttons, most used ones first */
+	#nav,
+	#main.touch.tooltip_showing #nav {
+		flex-direction: row;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+		gap: 4px;
+		padding: 0;
+	}
+
+	.flex_nav,
+	.flex_nav > menu {
+		display: contents;
+	}
+
+	#nav #show_reactor     { order: -4; }
+	#nav #show_upgrades    { order: -3; }
+	#nav #show_experiments { order: -2; }
+	#nav #pause_toggle     { order: -1; }
+
+	#nav button {
+		margin: 0;
+		min-height: 32px;
+		padding: 0 .6em .1em;
+		font-size: 12px;
+		white-space: normal;
+	}
+
+	/* Without touch the tooltip still replaces the nav, give it room */
+	#main:not(.touch) #tooltip {
+		height: auto;
+	}
+
+	#tooltip_data {
+		width: 11em;
+		font-size: 13px;
+	}
+
+	#main.touch #tooltip {
+		bottom: calc(var(--dock-height, 0px) + 4px);
+		font-size: 14px;
+	}
+
+	/* -- Objective -- */
+	#objectives_section {
+		display: flex;
+		align-items: center;
+		padding: 4px 6px !important;
+	}
+
+	#objectives_wrapper {
+		display: block;
+		flex: 1 1 auto;
+		height: auto;
+		min-height: 1.7em;
+	}
+
+	#objectives_content {
+		position: relative;
+	}
+
+	#objective_title {
+		max-width: calc(100% - 6em);
+	}
+
+	#objectives_header {
+		display: block;
+		width: auto;
+	}
+
+	/* -- Reactor & pages -- */
+	#main #reactor_upgrades {
+		padding: 4px !important;
+		overflow: hidden;
+	}
+
+	#reactor_section,
+	#main #reactor_section.showing {
+		display: block;
+		width: 100%;
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+	}
+
+	#reactor_header {
+		display: block;
+	}
+
+	#reactor_stats {
+		float: none;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2px;
+		white-space: normal;
+		margin-bottom: .4em;
+	}
+
+	#reactor_stats .stat {
+		width: auto;
+		font-size: 12px;
+	}
+
+	#reactor_wrapper {
+		float: none;
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	#all_upgrades .upgrade {
+		width: 44px;
+		height: 44px;
+		margin: 1px;
+	}
+
+	#reboot_section,
+	#refund_section {
+		max-width: 100%;
+	}
+
+	#txtImportExport {
+		width: 100%;
+		max-width: 90vw;
+	}
+
+	#reactor_upgrades .explanitory button {
+		white-space: normal;
+		min-height: 34px;
+	}
+
+	/* -- Parts: dock at the bottom of the screen -- */
+	#main #parts_section {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 35;
+		margin: 0 !important;
+		padding: 4px 0 4px 6px;
+		padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+		border-width: 8px;
+		box-shadow: 0 -2px 8px rgba(0, 0, 0, .7);
+	}
+
+	#parts,
+	#main #parts.showing {
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: flex-start;
+		overflow-x: auto;
+		overflow-y: hidden;
+		-webkit-overflow-scrolling: touch;
+		padding: 2px;
+		gap: 10px;
+	}
+
+	#parts > menu {
+		display: contents;
+	}
+
+	#parts > menu > menu {
+		display: grid;
+		grid-template-rows: repeat(3, auto);
+		grid-auto-flow: column;
+		gap: 2px;
+		flex: 0 0 auto;
+		padding: 0;
+	}
+
+	#parts > menu > menu:empty {
+		display: none;
+	}
+
+	#parts_section .part,
+	#parts_section .cells .part,
+	#parts_section .cells .part:nth-child(5n),
+	#parts_section .cells .part:nth-child(3n) {
+		margin: 0;
+		padding: 2px;
+	}
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+	#touch_toolbar button,
+	#touch_toolbar select {
+		font-size: 12px;
+		padding: 0 .4em;
+	}
+
+	#reactor_stats {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+/* Landscape phones: less vertical room, unstick the stats */
+@media (max-width: 900px) and (max-height: 500px), (pointer: coarse) and (max-height: 500px) {
+	#main #stats_section {
+		position: static;
+	}
+
+	#parts > menu > menu {
+		grid-template-rows: repeat(2, auto);
+	}
+}
